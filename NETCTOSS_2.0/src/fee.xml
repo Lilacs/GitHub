@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+
+<struts>
+	<package name="fee" extends="netctoss-default">
+		<action name="feelist" class="org.lilacs.action.fee.FeeList">
+			<interceptor-ref name="custom2-default"></interceptor-ref>
+			<interceptor-ref name="custom1-default"></interceptor-ref>
+			<param name="MAX_PAGE">10</param>
+			<result name="success">WEB-INF/jsp/fee/fee_list.jsp</result>
+		</action>
+		
+		<action name="feeo*" method="{1}" class="org.lilacs.action.fee.FeeOperate">
+			<interceptor-ref name="custom2-default"></interceptor-ref>
+			<interceptor-ref name="custom1-default"></interceptor-ref>
+			<result name="toaddview">WEB-INF/jsp/fee/fee_add.jsp</result>
+			<result name="tofeelist" type="redirectAction">feelist</result>
+			<result name="todetail">WEB-INF/jsp/fee/fee_detail.jsp</result>
+			<result name="tomodi">WEB-INF/jsp/fee/fee_modi.jsp</result>
+		</action>
+		
+		
+	</package>
+</struts>

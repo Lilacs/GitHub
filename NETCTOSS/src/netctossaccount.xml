@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+	
+<struts>
+	<package name="account" extends="netctoss-default">
+		<action name="accall" class="com.tarena.action.account.AccountList">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<param name="MAX_PAGE">10</param>
+			<result name="success">WEB-INF/jsp/account/account_list.jsp</result>
+		</action>
+		<action name="account*" method="{1}" class="com.tarena.action.account.AccountOPerate">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="backtolistpage" type="redirectAction">accall</result>
+			<result name="turntoaddpage">WEB-INF/jsp/account/account_add.jsp</result>
+			<result name="truntomodipage">WEB-INF/jsp/account/account_modi.jsp</result>
+			<result name="todetail">WEB-INF/jsp/account/account_detail.jsp</result>
+		</action>
+		<action name="makerec_*" method="{1}" class="com.tarena.action.account.AccountAjax">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name = "toexists" type="json">
+				<param name="root">flag</param>
+			</result>
+			<result name ="has" type="json">
+				<param name="root">recommenderId</param>
+			</result>
+			<result name="equals" type="json">
+				<param name="root">flag</param>
+			</result>
+		</action>
+	</package>
+</struts>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xmlns:aop="http://www.springframework.org/schema/aop" 
+		xmlns:context="http://www.springframework.org/schema/context"
+		xmlns:jee="http://www.springframework.org/schema/jee"
+		xsi:schemaLocation="
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+			http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd">
+	<!-- Spring声明式事务管理 -->
+	<!-- 定义hibernate事务管理Bean -->
+	<bean id="txManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<!-- 开启事务注解配置 -->
+	<tx:annotation-driven proxy-target-class="true"
+		transaction-manager="txManager" />
+	<!-- 定义事务通知,指定采用txManager做方面组件 -->
+	<!-- 可以指定目标中不同方法采用的不同的事务策略 -->
+	<!-- <tx:advice id="txAdvice" transaction-manager="txManager"> <tx:attributes> 
+		<tx:method name="execute" propagation="REQUIRED"/> <tx:method name="load*" 
+		read-only="true"/> <tx:method name="save*" propagation="REQUIRED"/> <tx:method 
+		name="delete*" propagation="REQUIRED"/> <tx:method name="update*" propagation="REQUIRED"/> 
+		</tx:attributes> </tx:advice> -->
+	<!-- 指定目标对象是一个类,没接口.采用CGLIB技术动态生成代理类 -->
+	<!-- aop:pointcut定义切入点表达式 -->
+	<!-- aop:advisor将通知和切入点结合起来 -->
+	<!-- <aop:config proxy-target-class="true"> <aop:pointcut id="targetPointcut" 
+		expression="within(org.tarena.netctoss.action..*)"/> <aop:advisor advice-ref="txAdvice" 
+		pointcut-ref="targetPointcut"/> </aop:config> -->
+
+</beans>

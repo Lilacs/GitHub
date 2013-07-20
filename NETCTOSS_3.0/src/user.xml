@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+
+<struts>
+	<package name="user" extends="netctoss-default">
+		<action name="user*" method="{1}" class="userInfo">
+			<interceptor-ref name="costomlogin"></interceptor-ref>
+			<result name="tomodiview">/WEB-INF/jsp/user/user_info.jsp</result>
+			<result name="tomodiPWD">/WEB-INF/jsp/user/user_modi_pwd.jsp</result>
+			<result name="success" type="json">
+				<param name="root">flag</param>
+			</result>
+		</action>
+	</package>
+</struts>

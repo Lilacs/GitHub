@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+
+<struts>
+	<package name="service" extends="netctoss-default">
+		<action name="servicelist" class="org.lilacs.action.service.ServiceList">
+			<interceptor-ref name="custom2-default"></interceptor-ref>
+			<interceptor-ref name="custom1-default"></interceptor-ref>
+			<param name="MAX_PAGE">10</param>
+			<result name="success">WEB-INF/jsp/service/service_list.jsp</result>
+		</action>
+		<action name="serviceo*" method="{1}"
+			class="org.lilacs.action.service.ServiceOperate">
+			<interceptor-ref name="custom2-default"></interceptor-ref>
+			<interceptor-ref name="custom1-default"></interceptor-ref>
+			<result name="toaddview">WEB-INF/jsp/service/service_add.jsp</result>
+			<result name="toservicelist" type="redirectAction">servicelist</result>
+			<result name="todetail">WEB-INF/jsp/service/service_detail.jsp</result>
+			<result name="tomodi">WEB-INF/jsp/service/service_modi.jsp</result>
+		</action>
+	</package>
+</struts>

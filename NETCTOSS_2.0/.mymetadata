@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="NETCTOSS_2.0"
+  id="myeclipse.1371720546170"
+  context-root="/DMS"
+  j2ee-spec="5.0"
+  archive="NETCTOSS_2.0.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+

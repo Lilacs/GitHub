@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+	
+<struts>
+	<package name="role" extends="netctoss-default">
+		<action name="rolelist" class="roleList">
+			<interceptor-ref name="costomlogin"></interceptor-ref>
+			<interceptor-ref name="costomRole"></interceptor-ref>
+			<param name="MAX_PAGE">10</param>
+			<result name="success">/WEB-INF/jsp/role/role_list.jsp</result>
+		</action>
+		
+		<action name="roleo*" method="{1}" class="roleOperate">
+			<interceptor-ref name="costomlogin"></interceptor-ref>
+			<interceptor-ref name="costomRole"></interceptor-ref>
+			<result name="toaddview">/WEB-INF/jsp/role/role_add.jsp</result>
+			<result name="torolelist" type="redirectAction">rolelist</result>
+			<result name="tomodi">WEB-INF/jsp/role/role_modi.jsp</result>
+		</action>
+	</package>
+</struts>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+	
+<struts>
+	<package name="user" extends="netctoss-default">
+		<action name="userinfo*" method="{1}" class="com.tarena.action.user.UserInfo">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="touserinfo">WEB-INF/jsp/user/user_info.jsp</result>
+			<result name="backview" type="redirectAction">userinfotoview</result>
+		</action>
+		<action name="usermodipwd" class="com.tarena.action.user.Usermodipwd">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="success">WEB-INF/jsp/user/user_modi_pwd.jsp</result>
+		</action>
+		<action name="userupdatepwd" class="com.tarena.action.user.UserAjaxmodipwd">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="success" type="json">
+				<param name="includeProperties">flag,msg</param>
+			</result>
+		</action>
+	</package>
+	
+</struts>

@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+			http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd">
+	<!-- 开启组件扫描技术 -->
+	<!-- 开启IoC -->
+	<context:component-scan base-package="org"></context:component-scan>
+	<!-- 开启AOP -->
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+
+	<!-- 装载数据库连接基本方式 -->
+	<bean id="mydataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="url"
+			value="jdbc:mysql://localhost:3306/netctoss?useUnicode=true&amp;characterEncoding=utf8"></property>
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="1234"></property>
+	</bean>
+
+	<!-- 装载Hibernate的SessionFactory -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<!-- 注入连接参数 -->
+		<property name="dataSource" ref="mydataSource"></property>
+		<!-- 注入hibernate配置参数 -->
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<!-- 开启二级缓存 -->
+				<prop key="hibernate.cache.use_second_level_cache">true</prop>
+				<!-- 设置二级缓存组件 -->
+				<prop key="hibernate.cache.provider_class">net.sf.ehcache.hibernate.EhCacheProvider</prop>
+			</props>
+		</property>
+		<!-- 注入设置记载的hbm.xml -->
+		<property name="mappingResources">
+			<list>
+				<value>org/lilacs/po/AdminInfo.hbm.xml</value>
+				<value>org/lilacs/po/RoleInfo.hbm.xml</value>
+				<value>org/lilacs/po/Cost.hbm.xml</value>
+				<value>org/lilacs/po/Host.hbm.xml</value>
+				<value>org/lilacs/po/Service.hbm.xml</value>
+				<value>org/lilacs/po/RolePrivilege.hbm.xml</value>
+				<value>org/lilacs/po/Ability.hbm.xml</value>
+				<value>org/lilacs/po/Account.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+
+</beans>

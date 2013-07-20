@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+
+<struts>
+	<include file="role.xml"></include>
+	<include file="admin.xml"></include>
+	<include file="fee.xml"></include>
+	<include file="account.xml"></include>
+	<include file="service.xml"></include>
+	<include file="user.xml"></include>
+	<!-- 拦截器,全局默认action,全局action,全局异常 -->
+	<package name="netctoss-default" extends="json-default">
+		<!-- 自定义拦截器 -->
+		<interceptors>
+			<interceptor name="checkLogin"
+				class="org.lilacs.interceptor.LoginInterceptor">
+			</interceptor>
+			<interceptor name="checkRole"
+				class="org.lilacs.interceptor.RoleInterceptor"></interceptor>
+			<interceptor name="checkAdmin"
+				class="org.lilacs.interceptor.AdminInterceptor"></interceptor>
+			<interceptor name="checkCost"
+				class="org.lilacs.interceptor.CostInterceptor"></interceptor>
+			<interceptor name="checkAccount"
+				class="org.lilacs.interceptor.AccountInterceptor"></interceptor>
+			<interceptor name="checkService"
+				class="org.lilacs.interceptor.ServiceInterceptor"></interceptor>
+
+			<interceptor-stack name="costomlogin">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="checkLogin"></interceptor-ref>
+			</interceptor-stack>
+
+			<interceptor-stack name="costomRole">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="checkRole"></interceptor-ref>
+			</interceptor-stack>
+
+			<interceptor-stack name="costomAdmin">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="checkAdmin"></interceptor-ref>
+			</interceptor-stack>
+
+			<interceptor-stack name="costomCost">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="checkCost"></interceptor-ref>
+			</interceptor-stack>
+
+			<interceptor-stack name="costomAccount">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="checkAccount"></interceptor-ref>
+			</interceptor-stack>
+
+			<interceptor-stack name="costomService">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="checkService"></interceptor-ref>
+			</interceptor-stack>
+
+
+		</interceptors>
+		<!-- 设置全局默认访问地址,防止用户输入错误地址 -->
+		<default-action-ref name="tologin"/>
+		
+		<global-results>
+			<result name="error" type="redirectAction">error</result>
+			<result name="nopower" type="redirectAction">nopower</result>
+			<result name="login" type="redirectAction">login</result>
+		</global-results>
+		<!-- 定义全局默认异常跳转界面 -->
+		<global-exception-mappings>
+			<exception-mapping result="error" exception="java.lang.Exception"></exception-mapping>
+		</global-exception-mappings>
+		<action name="error">
+			<interceptor-ref name="costomlogin"></interceptor-ref>
+			<result>WEB-INF/jsp/error.jsp</result>
+		</action>
+		<action name="nopower">
+			<interceptor-ref name="costomlogin"></interceptor-ref>
+			<result>WEB-INF/jsp/nopower.jsp</result>
+		</action>
+		<action name="login">
+			<result>WEB-INF/jsp/login.jsp</result>
+		</action>
+		<action name="checkcode" class="checkCode">
+			<result name="success" type="stream">
+				<param name="inputName">image</param>
+			</result>
+		</action>
+		<action name="check" class="check">
+			<result name="success" type="redirectAction">index</result>
+			<result name="error">WEB-INF/jsp/login.jsp</result>
+		</action>
+		<action name="index">
+			<interceptor-ref name="costomlogin"></interceptor-ref>
+			<result>WEB-INF/jsp/index.jsp</result>
+		</action>
+
+		<action name="logout" class="logout">
+			<result type="redirectAction">login</result>
+		</action>
+		<action name="tologin">
+			<result type="redirectAction">login</result>
+		</action>
+	</package>
+
+</struts>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+	
+<struts>
+	<!--
+	 //设置编码格式
+	 <constant name="struts.i18n.encoding" value="gbk"></constant> 
+	 multipart/form-data
+	-->
+	<package name="fee" extends="netctoss-default">
+	<action name="fee_*" method="{1}" class="com.tarena.action.fee.Fee_operate">
+		<interceptor-ref name="loginStack"></interceptor-ref>
+		<result name="add">/WEB-INF/jsp/fee/fee_add.jsp</result>
+		<result name="modi">/WEB-INF/jsp/fee/fee_modi.jsp</result>
+		<result name="detail">/WEB-INF/jsp/fee/fee_detail.jsp</result>
+	</action>	
+		
+	<action name="delete" class="com.tarena.action.fee.Deletcost">
+		<interceptor-ref name="loginStack"></interceptor-ref>
+		<result name="success" type="redirectAction">fee_list</result>
+	</action> 
+	
+	<action name="create_cost" class="com.tarena.action.fee.Create_cost">
+		<result name="success" type="redirectAction">fee_list</result>
+	</action>
+	
+	<action name="update_cost" class="com.tarena.action.fee.UpdateCost">
+		<result name="success" type="redirectAction">fee_list</result>
+	</action>
+	
+	<action name="update_cost_status" class="com.tarena.action.fee.Update_Cost_Status">
+		<result name="success" type="redirectAction">fee_list</result>
+	</action>
+	
+	
+	
+	
+	
+	<action name="fee_list" class="com.tarena.action.fee.fee_list">
+		<interceptor-ref name="loginStack"></interceptor-ref>
+		<param name="MAX_PAGE">8</param>
+		<result name="success" >/WEB-INF/jsp/fee/fee_list.jsp</result>
+	</action>
+	
+	<action name="check_add_cost" class="com.tarena.action.fee.CheckAddCost">
+			<result name = "success" type="json">
+				<param name="root">flag</param>
+			</result>
+	</action>
+		
+	
+	</package>
+</struts>

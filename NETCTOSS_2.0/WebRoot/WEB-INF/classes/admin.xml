@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+
+<struts>
+	<package name="admin" extends="netctoss-default">
+		<action name="adminlist" class="org.lilacs.action.admin.AdminList">
+			<interceptor-ref name="custom2-default"></interceptor-ref>
+			<interceptor-ref name="custom1-default"></interceptor-ref>
+			<param name="MAX_PAGE">10</param>
+			<result name="success">/WEB-INF/jsp/admin/admin_list.jsp</result>
+		</action>
+		<action name="admino*" method="{1}" class="org.lilacs.action.admin.AdminOperate">
+			<interceptor-ref name="custom2-default"></interceptor-ref>
+			<interceptor-ref name="custom1-default"></interceptor-ref>
+			<result name="toaddview">WEB-INF/jsp/admin/admin_add.jsp</result>
+			<result name="toadminlist" type="redirectAction">adminlist</result>
+			<result name="tomodiview">WEB-INF/jsp/admin/admin_modi.jsp</result>
+		</action>
+	</package>
+</struts>

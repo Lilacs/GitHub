@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+	
+<struts>
+	<package name="role" extends="netctoss-default">
+		<action name="role_list" class="com.tarena.action.role.RoleList">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="success">WEB-INF/jsp/role/role_all.jsp</result>
+			<param name="MAX_PAGE">10</param>
+		</action>
+		
+		<action name="role_delete" class="com.tarena.action.role.DeleteRole">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="success" type="redirectAction">role_list</result>
+		</action>
+		
+		<action name="role_add" class="com.tarena.action.role.AddRoleView">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="success" >WEB-INF/jsp/role/role_add.jsp</result>
+		</action>
+		
+		<action name="checkrolename*" method="{1}" class="com.tarena.action.role.CheckRoleName">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="success" type="json">
+				<param name="root">flag</param>
+			</result>
+		</action>
+		<action name="addroleinfo" class="com.tarena.action.role.Create_role">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="success" type="redirectAction">role_list</result>
+		</action>
+		<action name="role_modi" class="com.tarena.action.role.RoleModify">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="success">WEB-INF/jsp/role/role_modi.jsp</result>
+		</action>
+		
+		<action name="roleupdate" class="com.tarena.action.role.RoleUpdate">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="success" type="redirectAction">role_list</result>
+		</action>
+	</package>
+</struts>

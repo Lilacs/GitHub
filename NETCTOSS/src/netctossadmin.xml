@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+	
+<struts>
+	<package name="admin" extends="netctoss-default">
+		<global-results>
+			<result name="error" type="redirectAction">error</result>
+			<result name="fail" type="redirectAction">error</result>
+		</global-results>
+		<action name="admin*" method="{1}" class="com.tarena.action.admin.AdminList">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<param name="MAX_PAGE">10</param>
+			<result name="success">WEB-INF/jsp/admin/admin_list.jsp</result>
+		</action>
+		
+		<action name="operate_*" method="{1}" class="com.tarena.action.admin.AdminAdd">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="truntoaddview">WEB-INF/jsp/admin/admin_add.jsp</result>
+			<result name="backtolist" type="redirectAction">adminall</result>
+			<result name="turntomodi">WEB-INF/jsp/admin/admin_modi.jsp</result>
+		</action>
+	</package>
+</struts>

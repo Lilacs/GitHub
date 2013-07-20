@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+
+<struts>
+	<include file="netctossrole.xml"></include>
+	<include file="netctossfee.xml"></include>
+	<include file="netctossadmin.xml"></include>
+	<include file="netctossaccount.xml"></include>
+	<include file="netctossservice.xml"></include>
+	<include file="netctossuser.xml"></include>
+	<package name="netctoss-default" extends="json-default">
+	
+		<!-- 设置拦截器,建立拦截器栈,以后直接引用栈,就是得到其中的所有拦截器 -->
+		<interceptors>
+			<interceptor name="checklogin"
+				class="com.tarena.interceptor.LoginInterceptor"></interceptor>
+			<interceptor-stack name="loginStack">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="checklogin"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<!-- 定义全局默认的action 如果用户输入错误,直接调入这个请求 -->
+		<default-action-ref name="loginre"></default-action-ref>
+		<global-results>
+			<result name="error" type="redirectAction">error</result>
+			<result name="fail" type="redirectAction">error</result>
+			<result name="nopower" type="redirectAction">nopower</result>
+			<result name="login2" type="redirectAction">login</result>
+		</global-results>
+		<!-- 默认返回为success值,然后在result中为默认跳转的action -->
+		<action name="login" class="com.tarena.action.common.login">
+			<result name="success">/WEB-INF/jsp/login.jsp</result>
+		</action>
+		<action name="check" class="com.tarena.action.common.Check">
+			<result name="success" type="redirectAction">index</result>
+			<result name="wrong">/WEB-INF/jsp/login.jsp</result>
+		</action>
+		<action name="logout" class="com.tarena.action.common.Logout">
+			<result name="logout" type="redirectAction">login</result>
+		</action>
+
+		<action name="error" class="com.tarena.action.common.Error">
+			<result name="success">/WEB-INF/jsp/error.jsp</result>
+		</action>
+
+		<action name="checkcode" class="com.tarena.action.common.CheckCode">
+			<result name="success" type="stream">
+				<param name="inputName">image</param>
+			</result>
+		</action>
+		<action name="ajaxcheckimg" class="com.tarena.action.common.AjaxCheckimg">
+			<result type="json">
+				<param name="root">flag</param>
+			</result>
+		</action>
+		<action name="nopower" class="com.tarena.action.common.Nopower">
+			<result name="nopower">WEB-INF/jsp/nopower.jsp</result>
+		</action>
+
+		<action name="index" class="com.tarena.action.common.index">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="success">/WEB-INF/jsp/index.jsp</result>
+		</action>
+		<action name="loginre">
+			<result type="redirectAction">login</result>
+		</action>
+	</package>
+
+
+</struts>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+
+<struts>
+	<include file="role.xml"></include>
+	<include file="admin.xml"></include>
+	<include file="fee.xml"></include>
+	<include file="account.xml"></include>
+	<include file="service.xml"></include>
+	<include file="user.xml"></include>
+	<!-- 拦截器,全局默认action,全局action,全局异常 -->
+	<package name="netctoss-default" extends="json-default">
+		<!-- 自定义拦截器 -->
+		<interceptors>
+			<!-- 此拦截器用于sessionopeninview技术 -->
+			<interceptor name="sessionopeninview"
+				class="org.lilacs.interceptor.SessionOpenInView"></interceptor>
+				
+			<interceptor name="checklogin" 
+				class="org.lilacs.interceptor.LoginInterceptor"></interceptor>
+			
+			<interceptor-stack name="custom1-default">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="sessionopeninview"></interceptor-ref>
+			</interceptor-stack>
+			
+			<interceptor-stack name="custom2-default">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="checklogin"></interceptor-ref>
+			</interceptor-stack>
+
+		</interceptors>
+	<global-results>
+		<result name="error" type="redirectAction">error</result>
+		<result name="nopower" type="redirectAction">nopower</result>
+		<result name="login" type="redirectAction">login</result>
+	</global-results>
+	
+	<action name="error">
+		<result>WEB-INF/jsp/error.jsp</result>
+	</action>
+	<action name="nopower">
+		<result>WEB-INF/jsp/nopower.jsp</result>
+	</action>
+	<action name="login">
+		<result>WEB-INF/jsp/login.jsp</result>
+	</action>
+	<action name="checkcode" class="org.lilacs.action.common.CheckCode">
+		<result name="success" type="stream">
+			<param name="inputName">image</param>
+		</result>
+	</action>
+	<action name="check" class="org.lilacs.action.common.Check">
+		<interceptor-ref name="custom1-default"></interceptor-ref>
+		<interceptor-ref name="custom2-default"></interceptor-ref>
+		<result name="success">WEB-INF/jsp/index.jsp</result>
+		<result name="error">WEB-INF/jsp/login.jsp</result>
+	</action>
+	</package>
+</struts>

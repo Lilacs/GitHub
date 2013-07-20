@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+	
+<struts>
+	<package name="service" extends="netctoss-default">
+		<action name="serall" class="com.tarena.action.service.ServiceList">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<param name="MAX_PAGE">10</param>
+			<result name="success">WEB-INF/jsp/service/service_list.jsp</result>
+		</action>
+		<action name="service*" method="{1}" class="com.tarena.action.service.ServiceOperate">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="toaddview" >WEB-INF/jsp/service/service_add.jsp</result>
+			<result name="toservicelist" type="redirectAction">serall</result>
+			<result name="todetail" >WEB-INF/jsp/service/service_detail.jsp</result>
+			<result name="tomodiview">WEB-INF/jsp/service/service_modi.jsp</result>
+		</action>
+		<action name="makeser*" method="{1}" class="com.tarena.action.service.ServiceAjax">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="getit" type="json">
+				<param name="includeProperties">flag,loginName,id</param>
+			</result>   
+		</action>
+	</package>
+</struts>
